@@ -41,8 +41,8 @@ def home():
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/stations<br/>"
         f"/api/v1.0/tobs<br/>"
-        f"/api/v1.0/<start><br/>"
-        f"/api/v1.0/<start>/<end>"
+        f"/api/v1.0/2017-06-20<br/>"
+        f"/api/v1.0/2017-06-20/2017-06-28"
     )
 
 # Precipitation Route
@@ -84,7 +84,7 @@ def tobs():
         return jsonify(tobs_list)
 
 # Start Day Route
-@app.route("/api/v1.0/start")
+@app.route("/api/v1.0/<start>")
 def start_day(start):
         start_day = session.query(Measurement.date, func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
                 filter(Measurement.date >= start).\
@@ -95,7 +95,7 @@ def start_day(start):
         return jsonify(start_day_list)
 
 # Start-End Day Route
-@app.route("/api/v1.0/start_end")
+@app.route("/api/v1.0/<start>/<end>")
 def start_end_day(start, end):
         start_end_day = session.query(Measurement.date, func.min(Measurement.tobs), func.avg(Measurement.tobs), func.max(Measurement.tobs)).\
                 filter(Measurement.date >= start).\
